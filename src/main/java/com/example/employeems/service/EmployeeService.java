@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 public class EmployeeService {
     @Autowired
     private EmployeeRepo employeeRepo;
-
     @Autowired
     private ModelMapper modelMapper;
 
@@ -25,6 +24,15 @@ public class EmployeeService {
             employeeRepo.save(modelMapper.map(employeeDTO, Employee.class));
             return VarList.RSP_SUCCESS;
         }
+    }
 
+    public String updateEmployee(EmployeeDTO employeeDTO){
+    //to check data already exists
+        if (employeeRepo.existsById(employeeDTO.getEmpId())){
+            employeeRepo.save(modelMapper.map(employeeDTO,Employee.class));
+            return VarList.RSP_SUCCESS;
+        }else{
+            return VarList.RSP_NO_DATA_FOUND;
+        }
     }
 }
